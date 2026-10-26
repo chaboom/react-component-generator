@@ -47,76 +47,81 @@ function App() {
 
   return (
     <div className="app">
-      <header className="app-header">
-        <div className="brand-mark">RC</div>
-        <div className="header-copy">
-          <span className="eyebrow">React Component Generator</span>
-          <h1>프롬프트로 만드는 UI 워크벤치</h1>
-          <p>요청을 입력하고, 생성된 React 컴포넌트를 바로 미리보고 코드로 확인합니다.</p>
-        </div>
-        <div className="header-meta" aria-label="현재 작업 상태">
-          <div>
-            <span>Provider</span>
-            <strong>{activeProvider}</strong>
-          </div>
-          <div>
-            <span>Components</span>
-            <strong>{components.length}</strong>
-          </div>
+      <header className="menubar">
+        <span className="menubar-logo" aria-hidden="true">RC</span>
+        <strong>컴포넌트 생성기</strong>
+        <div className="menubar-status" aria-label="현재 작업 상태">
+          <span>
+            모델 <b>{activeProvider}</b>
+          </span>
+          <span>
+            컴포넌트 <b>{components.length}</b>
+          </span>
         </div>
       </header>
 
+      <section className="hero">
+        <h1>말로 설명하면 컴포넌트가 나옵니다</h1>
+        <p>만들고 싶은 UI를 적으면 React 컴포넌트를 생성해서 바로 미리보고, 코드까지 복사할 수 있어요.</p>
+      </section>
+
       <main className="workspace">
-        <section className="composer-panel" aria-label="컴포넌트 생성">
-          <PromptInput onGenerate={handleGenerate} isLoading={isLoading} />
+        <section className="win" aria-label="컴포넌트 생성">
+          <div className="win-title">
+            <span className="win-box" aria-hidden="true" />
+            <h2>새 컴포넌트</h2>
+          </div>
+          <div className="win-body">
+            <PromptInput onGenerate={handleGenerate} isLoading={isLoading} />
+          </div>
         </section>
 
-        <aside className="settings-panel" aria-label="실행 설정">
-          <div className="settings-header">
-            <span className="panel-kicker">Runtime</span>
+        <aside className="win" aria-label="실행 설정">
+          <div className="win-title win-title--blue">
+            <span className="win-box" aria-hidden="true" />
             <h2>실행 설정</h2>
           </div>
-          <div className="provider-select">
-            <label htmlFor="provider">Provider</label>
-            <select
-              id="provider"
-              value={provider}
-              onChange={(e) => handleProviderChange(e.target.value as Provider)}
-            >
-              {Object.entries(PROVIDER_CONFIG).map(([key, { label }]) => (
-                <option key={key} value={key}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="api-key-input">
-            <label htmlFor="api-key">
-              API Key
-            </label>
-            <div className="api-key-field">
-              <input
-                id="api-key"
-                type={showKey ? 'text' : 'password'}
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder={
-                  hasEnvKey
-                    ? '서버 키 사용 중 (직접 입력으로 덮어쓰기 가능)'
-                    : PROVIDER_CONFIG[provider].placeholder
-                }
-              />
-              <button
-                className="btn-toggle-key"
-                onClick={() => setShowKey(!showKey)}
-                type="button"
+          <div className="win-body">
+            <div className="provider-select">
+              <label htmlFor="provider">모델 제공사</label>
+              <select
+                id="provider"
+                value={provider}
+                onChange={(e) => handleProviderChange(e.target.value as Provider)}
               >
-                {showKey ? '숨기기' : '보기'}
-              </button>
+                {Object.entries(PROVIDER_CONFIG).map(([key, { label }]) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </select>
             </div>
-            <p className={`key-status ${hasEnvKey ? 'key-status--ready' : ''}`}>
-              {hasEnvKey ? '.env 키가 연결되어 있습니다.' : '직접 입력하거나 서버 환경변수를 설정하세요.'}
-            </p>
+            <div className="api-key-input">
+              <label htmlFor="api-key">API 키</label>
+              <div className="api-key-field">
+                <input
+                  id="api-key"
+                  type={showKey ? 'text' : 'password'}
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder={
+                    hasEnvKey
+                      ? '서버 키 사용 중 (직접 입력으로 덮어쓰기 가능)'
+                      : PROVIDER_CONFIG[provider].placeholder
+                  }
+                />
+                <button
+                  className="btn-toggle-key"
+                  onClick={() => setShowKey(!showKey)}
+                  type="button"
+                >
+                  {showKey ? '숨기기' : '보기'}
+                </button>
+              </div>
+              <p className={`key-status ${hasEnvKey ? 'key-status--ready' : ''}`}>
+                {hasEnvKey ? '.env 키가 연결되어 있습니다.' : '직접 입력하거나 서버 환경변수를 설정하세요.'}
+              </p>
+            </div>
           </div>
         </aside>
       </main>
@@ -130,10 +135,7 @@ function App() {
       <section className="results-section">
         {components.length > 0 && (
           <div className="results-header">
-            <div>
-              <span className="panel-kicker">Generated</span>
-              <h2>생성된 컴포넌트</h2>
-            </div>
+            <h2>생성된 컴포넌트</h2>
             <button className="btn-clear" onClick={clearAll}>
               전체 삭제
             </button>
@@ -155,7 +157,8 @@ function App() {
               </div>
             </div>
             <div className="empty-copy">
-              <h2>새 컴포넌트를 생성해보세요.</h2>
+              <h2>아직 만든 컴포넌트가 없어요.</h2>
+              <p>위 입력창에 만들고 싶은 UI를 적거나 예시 프롬프트를 눌러 시작하세요.</p>
             </div>
           </div>
         )}

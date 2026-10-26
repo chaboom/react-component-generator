@@ -30,10 +30,6 @@ export function PromptInput({ onGenerate, isLoading }: PromptInputProps) {
 
   return (
     <div className="prompt-section">
-      <div className="prompt-heading">
-        <span className="panel-kicker">Prompt</span>
-        <h2>무엇을 만들까요?</h2>
-      </div>
       <form onSubmit={handleSubmit} className="prompt-form">
         <textarea
           value={prompt}

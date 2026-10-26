@@ -1,3 +1,5 @@
+@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
+
 * {
   margin: 0;
   padding: 0;
@@ -8,19 +10,20 @@
   color-scheme: light;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --desk: #6b7fd7;
+  --desk-dither: #5d71c9;
+  --ink: #1a1625;
 }
 
 body {
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    sans-serif;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.95)),
-    var(--background);
-  color: var(--foreground);
+  font-family: 'Galmuri11', 'Galmuri9', 'Malgun Gothic', ui-monospace, monospace;
+  font-size: 15px;
+  line-height: 1.55;
+  background-color: var(--desk);
+  background-image:
+    conic-gradient(var(--desk-dither) 25%, transparent 0 50%, var(--desk-dither) 0 75%, transparent 0);
+  background-size: 4px 4px;
+  color: var(--ink);
   min-height: 100vh;
 }
 
@@ -33,4 +36,9 @@ textarea {
 
 button {
   -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--ink);
+  color: #ffd23f;
 }
